@@ -11,5 +11,4 @@ urlpatterns = [
     path('logout/confirm/', UserLogoutConfirmView.as_view(), name="logout_confirm"),
     # Маршрут для выполнения выхода (обрабатывает POST)
     path('logout/', UserLogoutView.as_view(), name="logout"),
-    path('profile/', UserProfileUpdateView.as_view(), name="profile"),
 ]
