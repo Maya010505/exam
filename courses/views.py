@@ -10,7 +10,7 @@ class CourseListView(ListView):
     model = Course
     template_name = "courses/course_list.html"
     context_object_name = "courses"
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         query = self.request.GET.get("q")
