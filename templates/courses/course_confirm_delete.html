@@ -1,14 +1,15 @@
+<!-- templates/courses/course_confirm_delete.html -->
 {% extends "base.html" %}
 
-{% block title %}Удалить курс{% endblock %}
+{% block title %}Удалить курс "{{ object.title }}"?{% endblock %}
 
 {% block content %}
-<h2>Вы уверены, что хотите удалить курс "{{ course.title }}"?</h2>
-<p>Это действие невозможно будет отменить.</p>
+<h1 class="mb-4">Вы уверены, что хотите удалить курс "{{ object.title }}"?</h1>
 
-<form method="post">
+<form method="post" class="card p-4">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Удалить курс</button>
-    <a href="{% url 'courses:list' %}" class="btn btn-secondary">Отмена</a>
+    <p>Это действие нельзя отменить.</p>
+    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Да, удалить</button>
+    <a href="{% url 'courses:list' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Отмена</a>
 </form>
 {% endblock %}

@@ -3,6 +3,10 @@
 {% block title %}Выход{% endblock %}
 
 {% block content %}
-<h2>Выход из аккаунта</h2>
-<p>Вы успешно вышли из системы. <a href="{% url 'courses:list' %}">Перейти на главную</a></p>
+  <h2>Выход из аккаунта</h2>
+  <form method="post" action="{% url 'users:logout' %}">
+      {% csrf_token %}
+      <button type="submit">Выйти</button>
+  </form>
+  <p>После выхода вы будете перенаправлены на <a href="{% url 'courses:list' %}">главную страницу</a>.</p>
 {% endblock %}

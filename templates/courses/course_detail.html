@@ -1,19 +1,27 @@
+<!-- templates/courses/course_detail.html -->
 {% extends "base.html" %}
 
 {% block title %}{{ course.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ course.title }}</h2>
-<p>{{ course.description }}</p>
-<p><strong>Дата начала:</strong> {{ course.start_date }}</p>
-<p><strong>Дата окончания:</strong> {{ course.end_date }}</p>
+<h1 class="mb-4">{{ course.title }}</h1>
 
-{% if course.logo %}
-<img src="{{ course.logo.url }}" alt="{{ course.title }}" class="img-fluid">
-{% endif %}
-
-{% if user.is_authenticated %}
-    <a href="{% url 'courses:update' course.id %}" class="btn btn-warning mt-3">Редактировать курс</a>
-    <a href="{% url 'courses:delete' course.id %}" class="btn btn-danger mt-3">Удалить курс</a>
-{% endif %}
+<div class="card">
+    <div class="card-body">
+        <p><strong>Описание:</strong> {{ course.description }}</p>
+        <p><strong>Дата начала:</strong> {{ course.start_date }}</p>
+        <p><strong>Дата окончания:</strong> {{ course.end_date }}</p>
+        <p><strong>Автор:</strong> {{ course.created_by.username }}</p>
+        {% if course.logo %}
+            <img src="{{ course.logo.url }}" alt="Логотип курса" class="img-fluid rounded mt-3" style="max-height: 200px;">
+        {% endif %}
+        <div class="mt-4">
+            <a href="{% url 'courses:list' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Назад к списку</a>
+            {% if user == course.created_by %}
+                <a href="{% url 'courses:edit' course.pk %}" class="btn btn-warning"><i class="fas fa-edit"></i> Редактировать</a>
+                <a href="{% url 'courses:delete' course.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i> Удалить</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
