@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lesson.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ lesson.title }}</h2>
+<p>{{ lesson.description }}</p>
+<p>{{ lesson.text|linebreaks }}</p>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'lessons:update' lesson.id %}" class="btn btn-warning mt-3">Редактировать урок</a>
+    <a href="{% url 'lessons:delete' lesson.id %}" class="btn btn-danger mt-3">Удалить урок</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Удалить курс{% endblock %}
+
+{% block content %}
+<h2>Вы уверены, что хотите удалить курс "{{ course.title }}"?</h2>
+<p>Это действие невозможно будет отменить.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить курс</button>
+    <a href="{% url 'courses:list' %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

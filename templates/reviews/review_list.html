@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Отзывы о курсе{% endblock %}
+
+{% block content %}
+<h2>Отзывы о курсе "{{ course.title }}"</h2>
+
+{% if reviews %}
+    <div class="list-group">
+        {% for review in reviews %}
+        <div class="list-group-item">
+            <h5>{{ review.user.username }} (Оценка: {{ review.rating }}/5)</h5>
+            <p>{{ review.comment }}</p>
+            {% if user == review.user %}
+            <a href="{% url 'reviews:update' review.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+            <a href="{% url 'reviews:delete' review.id %}" class="btn btn-danger btn-sm">Удалить</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Отзывов еще нет.</p>
+{% endif %}
+
+{% if reviews.has_other_pages %}
+<div class="pagination">
+    <span class="step-links">
+        {% if reviews.has_previous %}
+            <a href="?page=1">Первая</a>
+            <a href="?page={{ reviews.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ reviews.number }} из {{ reviews.paginator.num_pages }}.
+        </span>
+
+        {% if reviews.has_next %}
+            <a href="?page={{ reviews.next_page_number }}">Следующая</a>
+            <a href="?page={{ reviews.paginator.num_pages }}">Последняя</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+{% endblock %}

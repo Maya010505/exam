@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Список курсов{% endblock %}
+
+{% block content %}
+<h2>Список курсов</h2>
+
+<form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Поиск курсов" name="q" value="{{ request.GET.q }}">
+        <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+    </div>
+</form>
+
+<div class="row">
+    {% for course in courses %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            {% if course.logo %}
+            <img src="{{ course.logo.url }}" class="card-img-top" alt="{{ course.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ course.title }}</h5>
+                <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+                <a href="{% url 'courses:detail' course.id %}" class="btn btn-primary">Подробнее</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'courses:update' course.id %}" class="btn btn-warning mt-2">Редактировать</a>
+                    <a href="{% url 'courses:delete' course.id %}" class="btn btn-danger mt-2">Удалить</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Нет доступных курсов.</p>
+    {% endfor %}
+</div>
+
+{% if courses.has_other_pages %}
+<div class="pagination">
+    <span class="step-links">
+        {% if courses.has_previous %}
+            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Первая</a>
+            <a href="?page={{ courses.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ courses.number }} из {{ courses.paginator.num_pages }}.
+        </span>
+
+        {% if courses.has_next %}
+            <a href="?page={{ courses.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Следующая</a>
+            <a href="?page={{ courses.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Последняя</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+{% endblock %}
